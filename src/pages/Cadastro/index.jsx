@@ -1,56 +1,89 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, Button, TextInput } from "react-native";
-import { firebase } from "../../services/fibase";
+import { database, firebase } from "../../services/fibase";
 import { globalContext } from "../../../App";
+import { styles } from "./style";
+import { Cabecalho } from "../../components/Cabecalho";
 
 export default function Cadastro() {
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
   const [senhaCorreta, setSenhaCorreta] = useState(false);
+  const [numApartamento, setNumApartamento] = useState();
+  const [nome, setNome] = useState();
 
   const { valoresGlobais, setValoresGlobais } = useContext(globalContext);
 
-  const handleCadastro = () => {
+  const lidarCadastro = () => {
     const provider = new firebase.auth()
       .createUserWithEmailAndPassword(email, senha)
-      .then((res) => {
+      .then(async (res) => {
+        await database.ref("usuario").push({
+          nome: nome,
+          numApartamento: numApartamento,
+          email: res.user.email,
+          uid: res.user.uid,
+        });
         setValoresGlobais({
-          user: { email: res.user.email, uid: res.user.uid },
+          user: {
+            nome: nome,
+            numApartamento: numApartamento,
+            email: res.user.email,
+            uid: res.user.uid,
+          },
         });
         //Mudar para pagina inicial
       })
+      .then((a) => console.log("oi"))
       .catch((erro) => console.log("Deu Ruim" + erro));
-    console.log({ email: email, senha: senha });
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Text>OI</Text>
-      <TextInput onChangeText={(value) => setEmail(value.toString())} />
-      <TextInput
-        secureTextEntry
-        onChangeText={(value) => setSenha(value.toString())}
-      />
-      <TextInput
-        secureTextEntry
-        onChangeText={(value) =>
-          value.toString() === senha
-            ? setSenhaCorreta(true)
-            : setSenhaCorreta(false)
-        }
-      />
-      <Button onPress={senhaCorreta && handleCadastro}>Cadastre-se</Button>
+    <View style={styles.containerPrincipal}>
+      <Cabecalho />
+      <View style={styles.containerSecundario}>
+        <Text style={styles.textoPrincipal}>Cadastre-se</Text>
+        <TextInput
+          style={styles.inputPrincipal}
+          placeholder="Nome"
+          onChangeText={(value) => setNome(value.toString())}
+        />
+        <TextInput
+          style={styles.inputPrincipal}
+          placeholder="Email"
+          onChangeText={(value) => setEmail(value.toString())}
+        />
+        <TextInput
+          style={styles.inputPrincipal}
+          placeholder="N° do Apartamento"
+          onChangeText={(value) =>
+            !isNaN(value) && setNumApartamento(value.toString())
+          }
+        />
+        <TextInput
+          style={styles.inputPrincipal}
+          placeholder="Senha"
+          secureTextEntry
+          onChangeText={(value) => setSenha(value.toString())}
+        />
+        <TextInput
+          style={styles.inputPrincipal}
+          placeholder="Confirme a senha"
+          secureTextEntry
+          onChangeText={(value) =>
+            value.toString() === senha
+              ? setSenhaCorreta(true)
+              : setSenhaCorreta(false)
+          }
+        />
+        <Text
+          style={styles.botaoPrincipal}
+          onClick={senhaCorreta && lidarCadastro}
+        >
+          Cadastrar
+        </Text>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

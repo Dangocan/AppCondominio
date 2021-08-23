@@ -3,14 +3,13 @@ import "firebase/auth";
 import "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBOngbG6PY9yt2ZozsdydZNYzm1m0KwFB8",
-  authDomain: "appcondominio-21b58.firebaseapp.com",
-  databaseURL: "https://appcondominio-21b58-default-rtdb.firebaseio.com",
-  projectId: "appcondominio-21b58",
-  storageBucket: "appcondominio-21b58.appspot.com",
-  messagingSenderId: "306715766473",
-  appId: "1:306715766473:web:fb308adf3fc627ad5e6718",
-  measurementId: "G-TTRTS6BX6L",
+  apiKey: "AIzaSyB1STZRy-xWXiUruq6xcL8w58JIZieWJTo",
+  authDomain: "appcondominio-d54ad.firebaseapp.com",
+  projectId: "appcondominio-d54ad",
+  storageBucket: "appcondominio-d54ad.appspot.com",
+  messagingSenderId: "7183906306",
+  appId: "1:7183906306:web:3d5bf0e0153955c054d91b",
+  measurementId: "G-DNFXKBKJ6B",
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
