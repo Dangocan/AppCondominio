@@ -9,6 +9,21 @@ import MinhasReservas from "./src/pages/MinhasReservas";
 import Login from "./src/pages/Login";
 import Home from "./src/pages/Home";
 import { database } from "./src/services/fibase";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { Rodape } from "./src/components/Rodape";
+
+const Rotas = createBottomTabNavigator();
+
+function MinhaRotas() {
+  return (
+    <Rotas.Navigator tabBar={(props) => <Rodape {...props} />}>
+      <Rotas.Screen name="Home" component={Home} />
+      <Rotas.Screen name="MinhasReservas" component={MinhasReservas} />
+      <Rotas.Screen name="CadastroReserva" component={CadastroReserva} />
+    </Rotas.Navigator>
+  );
+}
 
 export const globalContext = createContext({});
 
@@ -17,7 +32,9 @@ export default function App() {
 
   return (
     <globalContext.Provider value={{ valoresGlobais, setValoresGlobais }}>
-      <Login />
+      <NavigationContainer backBehavior="history">
+        <MinhaRotas />
+      </NavigationContainer>
     </globalContext.Provider>
   );
 }

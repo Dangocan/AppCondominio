@@ -9,7 +9,37 @@ import { FontAwesome5 as Reserva } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { tema } from "../../styles";
 
-export function Rodape() {
+export function Rodape({ state, descriptors, navigation }) {
+  const rotas = state.routes;
+
+  const { options } = descriptors[route.key];
+  const label =
+    options.tabBarLabel !== undefined
+      ? options.tabBarLabel
+      : options.title !== undefined
+      ? options.title
+      : route.name;
+
+  const isFocused = state.index === index;
+
+  const onPress = () => {
+    const event = navigation.emit({
+      type: "tabPress",
+      target: route.key,
+    });
+
+    if (!isFocused && !event.defaultPrevented) {
+      navigation.navigate(route.name);
+    }
+  };
+
+  const onLongPress = () => {
+    navigation.emit({
+      type: "tabLongPress",
+      target: route.key,
+    });
+  };
+
   return (
     <View style={styles.containerPrincipal}>
       <View style={styles.iconeContainer}>
