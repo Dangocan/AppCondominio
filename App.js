@@ -19,8 +19,8 @@ function MinhaRotas() {
   return (
     <Rotas.Navigator tabBar={(props) => <Rodape {...props} />}>
       <Rotas.Screen name="Home" component={Home} />
-      <Rotas.Screen name="MinhasReservas" component={MinhasReservas} />
-      <Rotas.Screen name="CadastroReserva" component={CadastroReserva} />
+      <Rotas.Screen name="Ambientes" component={MinhasReservas} />
+      <Rotas.Screen name="Reservas" component={MinhasReservas} />
     </Rotas.Navigator>
   );
 }
@@ -32,7 +32,7 @@ export default function App() {
 
   return (
     <globalContext.Provider value={{ valoresGlobais, setValoresGlobais }}>
-      <NavigationContainer backBehavior="history">
+      <NavigationContainer>
         <MinhaRotas />
       </NavigationContainer>
     </globalContext.Provider>
